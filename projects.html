@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Selected engineering projects by Dajen Torralba across machine learning, computer vision, robotics, and security." />
+    <title>Projects — Dajen Torralba</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Projects — Dajen Torralba" />
+    <meta property="og:description" content="Selected engineering projects by Dajen Torralba across machine learning, computer vision, robotics, and security." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23d9922b'/></svg>" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Instrument+Sans:wght@400..700&family=Martian+Mono:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <div class="shell masthead__inner">
+        <a class="brand" href="index.html">Dajen&nbsp;Torralba</a>
+        <nav class="nav" data-nav aria-label="Primary">
+        <a href="projects.html">Projects</a>
+        <a href="experience.html">Experience</a>
+        <a href="stack.html">Stack</a>
+        <a href="certifications.html">Certifications</a>
+        <a href="education.html">Education</a>
+        </nav>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="drawer">Menu</button>
+      </div>
+    </header>
+
+    <div class="scrim"></div>
+    <nav id="drawer" class="drawer" data-nav aria-label="Primary mobile">
+      <button class="drawer__close" aria-label="Close menu">Close ×</button>
+      <a href="projects.html">Projects</a>
+      <a href="experience.html">Experience</a>
+      <a href="stack.html">Stack</a>
+      <a href="certifications.html">Certifications</a>
+      <a href="education.html">Education</a>
+    </nav>
+
+    <main id="main">
+      <section class="shell page-head">
+        <p class="eyebrow">01 — Selected work</p>
+        <h1 class="page-title">Projects</h1>
+        <p class="page-intro">Systems I've designed, built, or contributed to.</p>
+      </section>
+
+      <section class="shell rail reveal">
+        <p class="rail__label">Independent</p>
+        <div class="rail__body">
+          <div class="plates plates--two">
+            <article class="plate">
+              <h2 class="plate__title">PLP-CNN voice-based feature prediction</h2>
+              <div class="tags">
+                <span>Machine Learning</span>
+                <span>Thesis</span>
+              </div>
+
+              <p>
+                End-to-end ML system predicting age, sex, height, and weight from a voice
+                sample. Built the PLP feature pipeline and CNN in PyTorch and TensorFlow,
+                then deployed it behind a lightweight web app for real-time inference.
+              </p>
+              <a class="plate__link" href="https://www.linkedin.com/feed/update/urn:li:activity:7080107226740240384/">Read more <span aria-hidden="true">&rarr;</span></a>
+            </article>
+
+            <article class="plate">
+              <h2 class="plate__title">Content moderation image classifier</h2>
+              <div class="tags">
+                <span>Machine Learning</span>
+                <span>Computer Vision</span>
+              </div>
+              <p>
+                CNN-based classifier for automated image moderation, with the emphasis on
+                honest evaluation — class balance, threshold selection, and the false-positive
+                cost that decides whether a moderation model is deployable at all.
+              </p>
+            </article>
+
+            <article class="plate">
+              <h2 class="plate__title">Instagram Follow Checker</h2>
+              <div class="tags">
+                <span>Web</span>
+                <span>TypeScript</span>
+                <span>React</span>
+              </div>
+              <p>
+                A local-only tool that diffs follower exports to surface non-followbacks.
+                TypeScript, React, and Express in a Docker container — no data leaves the
+                machine it runs on.
+              </p>
+              <a class="plate__link" href="https://dajentorralba.github.io/instagram-follower-check/">Read more <span aria-hidden="true">&rarr;</span></a>
+            </article>
+
+            <article class="plate">
+              <h2 class="plate__title">Property demand heatmap</h2>
+              <div class="tags">
+                <span>Web</span>
+                <span>TypeScript</span>
+                <span>React</span>
+              </div>
+              <p>
+                Real-time demand heatmap over Riyadh districts, covering dataset validation
+                for district boundaries through to the interface design that made the
+                signal readable at a glance.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell rail reveal">
+        <p class="rail__label">Professional</p>
+        <div class="rail__body">
+          <div class="plates plates--two">
+            <article class="plate">
+              <h2 class="plate__title">Dyson VisNav 360</h2>
+              <div class="tags">
+                <span>Robotics</span>
+                <span>C++</span>
+                <span>Computer Vision</span>
+              </div>
+              <p>
+                Particle detection and classification, feature matching, navigation, and
+                localization.
+              </p>
+            </article>
+
+            <article class="plate">
+              <h2 class="plate__title">Detection Engine</h2>
+              <div class="tags">
+                <span>Cybersecurity</span>
+                <span>Kernel</span>
+                <span>Windows</span>
+              </div>
+              <p>
+                Engine and kernel modules for threat detection and real-time system analysis,
+                using Windows Internals and API hooking to keep the hot path low-latency.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer__inner">
+        <p>Dajen Torralba · Riyadh · 2026</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
