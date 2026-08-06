@@ -516,7 +516,7 @@ canvas {
   line-height: 1.7;
 }
 
-.entry__org {
+.entry__role {
   font-family: var(--display);
   font-size: 1.45rem;
   font-weight: 700;
@@ -526,7 +526,7 @@ canvas {
   margin: 0 0 0.3rem;
 }
 
-.entry__role {
+.entry__org {
   font-size: 1rem;
   color: var(--far);
   font-weight: 600;
