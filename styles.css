@@ -613,6 +613,21 @@ canvas {
   color: var(--ink-3);
 }
 
+/* ---------- pager ----------------------------------------
+   End-of-page handoff. Sits bottom-right, previous then next,
+   so the pair reads in travel order left to right.
+----------------------------------------------------------- */
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding-block: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
 /* ---------- reveal --------------------------------------- */
 
 /* Gated on .js so that with scripting disabled the content is simply
