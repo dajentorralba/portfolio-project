@@ -245,6 +245,115 @@
     });
   }
 
+  /* ---------- analytics events ------------------------------
+     Pageviews come from the beacon in each page's <head>. This
+     covers the three things a pageview count can't answer: did
+     they take the resume, did they follow a link out, and how
+     far down a page did they actually get.
+
+     track() is a shim so the beacon vendor stays swappable —
+     it no-ops when no beacon is loaded, including local dev.
+  ----------------------------------------------------------- */
+
+  function track(name, props) {
+    try {
+      if (window.umami && typeof window.umami.track === 'function') {
+        window.umami.track(name, props);
+      } else if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+        window.goatcounter.count({
+          path: name + (props && props.target ? '/' + props.target : ''),
+          title: name,
+          event: true
+        });
+      }
+    } catch (e) {
+      /* analytics must never break the page */
+    }
+  }
+
+  function initEvents() {
+    var page = window.location.pathname.split('/').pop() || 'index.html';
+    // Directory this site is served from, e.g. '/portfolio-project/'.
+    var base = window.location.pathname.replace(/[^/]*$/, '');
+
+    // Resume download and outbound clicks share one delegated
+    // listener, so links added later are covered automatically.
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest ? e.target.closest('a[href]') : null;
+      if (!link) return;
+
+      var href = link.getAttribute('href') || '';
+
+      if (/\.pdf$/i.test(href)) {
+        track('resume-download', { page: page });
+        return;
+      }
+
+      if (/^https?:\/\//i.test(href)) {
+        var url;
+        try {
+          url = new URL(href, window.location.href);
+        } catch (err) {
+          return;
+        }
+
+        var host = url.hostname.replace(/^www\./, '');
+        var sameHost = host === window.location.hostname.replace(/^www\./, '');
+
+        // Anything under this site's own base path is internal
+        // navigation. Comparing hostname alone would wrongly treat a
+        // sibling project on the same github.io account as internal.
+        if (sameHost && url.pathname.indexOf(base) === 0) return;
+
+        track('outbound', {
+          target: sameHost ? host + url.pathname.replace(/\/$/, '') : host,
+          page: page
+        });
+      }
+    });
+  }
+
+  /* ---------- scroll depth ---------------------------------
+     Fires each quartile once. Distinguishes a real read from a
+     bounce, which is the whole question on a portfolio.
+  ----------------------------------------------------------- */
+
+  function initScrollDepth() {
+    var marks = [25, 50, 75, 100];
+    var hit = {};
+    var page = window.location.pathname.split('/').pop() || 'index.html';
+    var ticking = false;
+
+    function measure() {
+      ticking = false;
+      var doc = document.documentElement;
+      var scrollable = doc.scrollHeight - window.innerHeight;
+      // Short pages are fully visible on load; nothing to measure.
+      if (scrollable < 200) return;
+
+      var pct = ((window.scrollY || doc.scrollTop) / scrollable) * 100;
+
+      for (var i = 0; i < marks.length; i++) {
+        var m = marks[i];
+        if (!hit[m] && pct >= m - 1) {
+          hit[m] = true;
+          track('scroll-depth', { depth: String(m), page: page });
+        }
+      }
+
+      if (hit[100]) window.removeEventListener('scroll', onScroll);
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(measure);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    measure();
+  }
+
   /* ---------- boot ----------------------------------------- */
 
   function init() {
@@ -252,6 +361,8 @@
     initDrawer();
     initReveal();
     initCloud();
+    initEvents();
+    initScrollDepth();
   }
 
   if (document.readyState === 'loading') {
