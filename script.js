@@ -13,14 +13,36 @@
   ----------------------------------------------------------- */
 
   function markCurrentPage() {
-    var path = window.location.pathname.split('/').pop() || 'index.html';
+    // Pages now live as .../<name>/index.html, reachable at .../<name>/
+    // (clean URL) or .../<name>/index.html directly, so comparisons
+    // normalize both sides by stripping a trailing "index.html" and any
+    // trailing slash before comparing paths.
+    function normalize(p) {
+      return p.replace(/index\.html$/, '').replace(/\/+$/, '');
+    }
+    var current = normalize(window.location.pathname);
     var links = document.querySelectorAll('[data-nav] a');
     for (var i = 0; i < links.length; i++) {
-      var href = links[i].getAttribute('href');
-      if (href === path) {
+      if (normalize(links[i].pathname) === current) {
         links[i].setAttribute('aria-current', 'page');
       }
     }
+  }
+
+  /* ---------- current page id (for analytics labels) -------
+     Site pages moved from flat foo.html files into foo/index.html
+     folders for clean URLs. This derives a stable label ("projects",
+     "index", etc.) regardless of whether the page was reached via
+     the clean URL, a trailing index.html, or a nested repo subpath
+     (e.g. GitHub project pages under /portfolio-project/).
+  ----------------------------------------------------------- */
+
+  var KNOWN_PAGES = ['projects', 'experience', 'stack', 'certifications', 'education'];
+
+  function currentPageId() {
+    var path = window.location.pathname.replace(/index\.html$/, '').replace(/\/+$/, '');
+    var last = path.split('/').filter(Boolean).pop();
+    return KNOWN_PAGES.indexOf(last) !== -1 ? last : 'index';
   }
 
   /* ---------- mobile drawer -------------------------------- */
@@ -106,9 +128,14 @@
   }
 
   function initEvents() {
-    var page = window.location.pathname.split('/').pop() || 'index.html';
-    // Directory this site is served from, e.g. '/portfolio-project/'.
-    var base = window.location.pathname.replace(/[^/]*$/, '');
+    var page = currentPageId();
+    // Site root, e.g. '/portfolio-project/' — derived from script.js's
+    // own resolved URL rather than the current page's path, since pages
+    // now live at varying depths (root index.html vs. foo/index.html).
+    var scriptEl = document.currentScript || document.querySelector('script[src$="script.js"]');
+    var base = scriptEl
+      ? new URL(scriptEl.src, window.location.href).pathname.replace(/script\.js$/, '')
+      : window.location.pathname.replace(/[^/]*$/, '');
 
     // Resume download and outbound clicks share one delegated
     // listener, so links added later are covered automatically.
@@ -155,7 +182,7 @@
   function initScrollDepth() {
     var marks = [25, 50, 75, 100];
     var hit = {};
-    var page = window.location.pathname.split('/').pop() || 'index.html';
+    var page = currentPageId();
     var ticking = false;
 
     function measure() {
