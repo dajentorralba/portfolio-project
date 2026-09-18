@@ -6,23 +6,23 @@
 :root {
   color-scheme: light;
 
-  /* Depth-map palette: cold = distant/secondary, warm = near/active */
-  --ink:      #0d1a1f;
-  --ink-2:    #33474f;
-  --ink-3:    #6c8189;
-  --paper:    #f1f3f2;
-  --surface:  #ffffff;
-  --line:     #d7dddb;
-  --line-soft:#e6eae9;
-  --far:      #3e7c8c;
-  --near:     #d9922b;
+  /* Warm editorial palette: burgundy + antique brass on ivory paper */
+  --ink: #2a1216;
+  --ink-2: #6b3d43;
+  --ink-3: #9c8078;
+  --paper: #fdfaf5;
+  --surface: #fffbf6;
+  --line: #e2cfc4;
+  --line-soft: #eee2d8;
+  --far: #7a2331;
+  --near: #7a2331;
 
-  --display: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --body:    "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
-  --mono:    "Martian Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display: "Fraunces", ui-serif, Georgia, serif;
+  --body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --rail: 9rem;
-  --gap:  2.75rem;
+  --gap: 2.75rem;
   --radius: 2px;
 }
 
@@ -170,12 +170,104 @@ canvas {
   background: var(--surface);
 }
 
+/* ---------- map ------------------------------ */
+
+.now-map {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--gap);
+  padding-block: 2.5rem;
+  border-top: 1px solid var(--line);
+  align-items: start;
+}
+
+.now-map__now.rail {
+  border-top: none;
+  padding-block: 0;
+}
+
+.travel-map-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.travel-map-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.map-figure {
+  position: relative;
+  width: 100%;
+}
+
+.map-figure svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-figure svg path {
+  fill: var(--line-soft);
+  stroke: var(--surface);
+  stroke-width: 0.6;
+  transition: fill 0.15s ease;
+  cursor: default;
+}
+
+.map-figure svg path.visited {
+  fill: var(--ink);
+  cursor: pointer;
+}
+
+.map-figure svg g[id]:hover path,
+.map-figure svg path:hover {
+  fill: var(--near);
+}
+
+.map-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transform: translate(-50%, -130%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  z-index: 10;
+}
+
+.map-tooltip.visible {
+  opacity: 1;
+}
+
+.map-credit {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.map-credit a {
+  color: inherit;
+}
+
 /* ---------- drawer (mobile) ------------------------------ */
 
 .scrim {
   position: fixed;
   inset: 0;
-  background: rgba(13, 26, 31, 0.35);
+  background: rgba(42, 18, 22, 0.4);
   opacity: 0;
   pointer-events: none;
   transition: opacity 200ms ease;
@@ -248,12 +340,13 @@ canvas {
 
 .hero__greeting {
   font-family: var(--display);
+  font-style: italic;
   font-size: clamp(3.4rem, 9vw, 6.5rem);
-  font-weight: 700;
-  font-stretch: 112%;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 0.95;
   margin: 0 0 1.5rem;
+  color: var(--near);
 }
 
 .hero__lede {
@@ -262,16 +355,6 @@ canvas {
   color: var(--ink-2);
   max-width: 54ch;
   margin: 0;
-}
-
-.hero__meta {
-  font-family: var(--mono);
-  font-size: 0.63rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin: 0 0 1.75rem;
 }
 
 .hero__links {
@@ -299,65 +382,10 @@ canvas {
   transform: translateY(-1px);
 }
 
-.link-btn--primary {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-
-.link-btn--primary:hover {
-  border-color: var(--ink);
-}
-
 .link-btn__arrow {
   color: var(--near);
   font-weight: 600;
 }
-
-/* ---------- signature: point cloud ----------------------- */
-
-.cloud {
-  position: relative;
-  margin-top: clamp(1.75rem, 3vw, 2.5rem);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding-block: 0.5rem;
-}
-
-.cloud__canvas {
-  width: 100%;
-  height: clamp(230px, 28vw, 310px);
-}
-
-.cloud__legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  padding-block: 1rem 0.5rem;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.cloud__legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cloud__legend span::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-.cloud__legend .is-robotics::before { background: var(--near); }
-.cloud__legend .is-systems::before  { background: var(--far); }
-.cloud__legend .is-ml::before       { background: var(--ink-2); }
 
 /* ---------- page header ---------------------------------- */
 
@@ -375,14 +403,26 @@ canvas {
   margin: 0 0 1rem;
 }
 
+.hero__greeting {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(3.4rem, 9vw, 6.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin: 0 0 1.5rem;
+  color: var(--near);
+}
+
 .page-title {
   font-family: var(--display);
+  font-style: italic;
   font-size: clamp(2.4rem, 5.5vw, 3.6rem);
   font-weight: 700;
-  font-stretch: 108%;
   letter-spacing: -0.025em;
   line-height: 1;
   margin: 0 0 1rem;
+  color: var(--near);
 }
 
 .page-intro {
@@ -402,11 +442,6 @@ canvas {
   border-top: 1px solid var(--line);
 }
 
-/* the cloud already draws a rule beneath its legend */
-.cloud + .rail {
-  border-top: none;
-}
-
 .rail__label {
   font-family: var(--mono);
   font-size: 0.6rem;
@@ -419,7 +454,7 @@ canvas {
   align-self: start;
 }
 
-.rail__body > *:first-child {
+.rail__body>*:first-child {
   margin-top: 0;
 }
 
@@ -520,7 +555,6 @@ canvas {
   font-family: var(--display);
   font-size: 1.45rem;
   font-weight: 700;
-  font-stretch: 105%;
   letter-spacing: -0.015em;
   line-height: 1.15;
   margin: 0 0 0.3rem;
@@ -674,6 +708,15 @@ html.js .reveal.is-visible {
     gap: 0.9rem;
   }
 
+  .now-map {
+    grid-template-columns: 1fr;
+  }
+
+  .now-map__travel {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-soft);
+  }
+
   .rail__label,
   .entry__date {
     margin-top: 0;
@@ -708,7 +751,7 @@ html.js .reveal.is-visible {
   padding: 0;
 }
 
-.marks > div {
+.marks>div {
   padding-left: 0.9rem;
   border-left: 2px solid var(--near);
   margin-block: 0.5rem;

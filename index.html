@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Instrument+Sans:wght@400..700&family=Martian+Mono:wght@400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300..900;1,300..900&family=Inter:wght@400..700&family=IBM+Plex+Mono:wght@400..700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -60,15 +60,17 @@
 
     <main id="main">
       <section class="shell hero">
-        <p class="hero__meta">Software engineer</p>
         <h1 class="hero__greeting">Mabuhay!</h1>
         <p class="hero__lede">
-         I'm Dajen, a software engineer. I design, build, and ship production-grade software — whatever the domain. So far that meant 
-         robot perception at Dyson, kernel modules at Trend Micro, and ML systems as academic projects. I am adaptable, flexible, and I enjoy learning 
-         new things.
+         I'm Dajen, a collaborative problem-solver. With a computer science background, I enjoy  
+         building things that make technology more personal and helpful to humanity. This is proven 
+         by my work across multiple diciplines, including high-level robotics, embedded 
+         systems, and applied machine learning. I value purpose-driven work, and I get excited 
+         about working with teams that value synergy and innovation.
+
         </p>
         <div class="hero__links">
-          <a class="link-btn link-btn--primary" href="mailto:dajen.s.torralba@gmail.com">
+          <a class="link-btn" href="mailto:dajen.s.torralba@gmail.com">
             Get in touch <span class="link-btn__arrow" aria-hidden="true">&rarr;</span>
           </a>
           <a class="link-btn" href="Dajen_Torralba_Resume_August_2026.pdf" download>
@@ -80,34 +82,35 @@
         </div>
       </section>
 
-      <section class="shell cloud" aria-label="Areas of work">
-        <canvas class="cloud__canvas" role="img"
-          aria-label="Three clusters of points representing robotics perception, systems and security, and applied machine learning."></canvas>
-        <div class="cloud__legend">
-          <span class="is-robotics">Robotics perception</span>
-          <span class="is-systems">Systems &amp; security</span>
-          <span class="is-ml">Applied machine learning</span>
-        </div>
-      </section>
-
-      <section class="shell rail reveal">
-        <p class="rail__label">Now</p>
-        <div class="rail__body">
-          <p class="page-intro">
-            I'm currently based in Riyadh. I'm actively looking for my next engineering role, whatever the domain. I enjoy working and developing with teams that value collaboration, learning, and growth.
-          </p>
-          <div class="hero__links">
-            <a class="link-btn" href="projects.html">See the work <span class="link-btn__arrow" aria-hidden="true">&rarr;</span></a>
-            <a class="link-btn" href="experience.html">Read the history <span class="link-btn__arrow" aria-hidden="true">&rarr;</span></a>
+      <section class="shell now-map reveal">
+        <div class="rail now-map__now">
+          <p class="rail__label">Now</p>
+          <div class="rail__body">
+            <p class="page-intro">
+              Right now, I'm working as a Digital Product Associate at Cenomi Centers in Riyadh, rotating 
+              across teams and helping build whatever the business needs next.
+            </p>
           </div>
         </div>
-      </section>
 
+        <div class="travel-map now-map__travel">
+          <div class="travel-map-header">
+            <span class="travel-map-label">Places I've been</span>
+          </div>
+          <div class="map-figure" id="map-figure">
+            <!-- the SVG gets injected here by script.js -->
+            <div class="map-tooltip" id="map-tooltip"></div>
+          </div>
+          <p class="map-credit">
+            Map: <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noreferrer">Al MacDonald / Fritz Lekschas</a>, CC BY-SA 3.0
+          </p>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
       <div class="shell footer__inner">
-        <p>Dajen Torralba · Riyadh · 2026</p>
+        <p>Dajen Torralba · 2026</p>
       </div>
     </footer>
 
